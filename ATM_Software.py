@@ -1,3 +1,6 @@
+from login_info import check_password
+
+
 def add_account():
     print('Thanks for your interest to create an account.')
     ac = input("Enter Account Number: ")
@@ -5,7 +8,7 @@ def add_account():
     email = input("Enter Your E-mail: ")
     # number = input("Enter Your Phone Number: ")
     number = str(phone_number())
-    password = input("Enter Your Password: ")
+    password = check_password()
     deposit_amount = str(amount())
     with open("atm_software_db.txt", "a", newline='') as a:
         a.write('\n' + ac + "," + name + "," + email + "," + number + "," + password + "," + deposit_amount)
@@ -84,15 +87,14 @@ def user_pass_check(uid, passw):
         data = read_data.read()
         new_line_data = data.split('\n')
         for datas in new_line_data:
-            ac, name, email, mobile_number, password, balance = datas.split(',')
-            if uid == ac and passw == password:
-                # print('Account is valid')
-                return True
+            if datas:
+                ac, name, email, mobile_number, password, balance = datas.split(',')
+                if uid == ac and passw == password:
+                    # print('Account is valid')
+                    return True
 
 
-def identity_confirmation(default_life=3):
-    userid = input('Enter account number: ')
-    password = input('Enter account password: ')
+def identity_confirmation(userid, password, default_life=3):
     identity_check = user_pass_check(userid, password)
     if identity_check:
         choice = input('Please enter your choice: \n'
@@ -119,21 +121,31 @@ def identity_confirmation(default_life=3):
             print('\n'
                   '[✘] Account No or Password is incorrect.')
             print('You have {} chance left.'.format(default_life))
-            identity_confirmation(default_life)
+            identity_confirmation(userid, password, default_life)
 
 
 def atm():
     account_confirmation = input('Do you have any account? (y/n): ').lower()
+    userid = ''
+    password = ''
     if account_confirmation == 'y':
-        identity_confirmation()
-    else:
-        account_creation_confirmation = input('You have no account associated with the account ID or Password.\n'
-                                              'Do you want to create one? (y/n): ').lower()
-        if account_creation_confirmation == 'y':
-            add_account()
-            # print('Function creation in progress.')
+        userid = input('Enter account number: ')
+        password = input('Enter account password: ')
+    while True:
+        if account_confirmation == 'y':
+            identity_confirmation(userid, password)
         else:
+            account_creation_confirmation = input('You have no account associated with the account ID or Password.\n'
+                                                  'Do you want to create one? (y/n): ').lower()
+            if account_creation_confirmation == 'y':
+                add_account()
+            else:
+                account_confirmation = input('Do you have any account? (y/n): ').lower()
+
+        user_choice = input('Do you want to use it again? (y/n): ')
+        if user_choice == 'n':
             print('Thanks for your visit.')
+            break
 
 
 if __name__ == '__main__':

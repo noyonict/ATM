@@ -1,3 +1,4 @@
-001,MD salman Mia,salman@gmail.com,1928493916,00,499999999500000
-002,Abdullah Mia,abdullah@gmail.com,1775748710,222,50000000000000
-003,MD Rahib,rahib@gmail.com,1632428604,333,5000000000
+001,MD salman Mia,salman@gmail.com,1928493916,00,4500
+002,Abdullah Mia,abdullah@gmail.com,1775748710,222,500000
+003,MD Rahib,rahib@gmail.com,1632428604,333,50000
+005,Python,python@python.org,993,Noyon@999,500
